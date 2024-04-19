@@ -18,13 +18,13 @@ public class Controller {
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> getAdmin(){
         return ResponseEntity.ok("Hello admin");
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('user')")
+//    @PreAuthorize("hasRole('user')")
     public ResponseEntity<String> getUser(Principal principal){
         return ResponseEntity.ok("Hello User");
     }

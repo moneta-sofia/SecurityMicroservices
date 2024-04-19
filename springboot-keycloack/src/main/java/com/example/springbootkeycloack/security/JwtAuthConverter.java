@@ -33,8 +33,8 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         Collection<GrantedAuthority> authorities = Stream.concat(
                 jwtGrantedAuthoritiesConverter.convert(token).stream(),
                 extractResourceRoles(token).stream()).collect(Collectors.toSet());
-        log.debug("JWT Token: {}", token.getTokenValue());
-        log.debug("JWT Claims: {}", token.getClaims());
+//        log.debug("JWT Token: {}", token.getTokenValue());
+//        log.debug("JWT Claims: {}", token.getClaims());
         return new JwtAuthenticationToken(token, authorities,getPrincipalClaimName(token));
     }
 
@@ -55,13 +55,11 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             || (resourceRoles = (Collection<String>) resource.get("roles")) == null) {
             return Set.of();
         }
-        if (resourceRoles != null) {
-            log.debug("Extracted roles from JWT: {}", resourceRoles);
-        }
+//        if (resourceRoles != null) {
+//            log.debug("Extracted roles from JWT: {}", resourceRoles);
+//        }
         return resourceRoles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
     }
-
-
 }

@@ -12,7 +12,7 @@ public class JwtAuthConverterProperties {
     private String principalAttribute;
 
     public String getResourceId() {
-        System.out.println(resourceId);
+//        System.out.println(resourceId);
         return resourceId;
     }
 
