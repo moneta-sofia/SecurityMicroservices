@@ -1,6 +1,8 @@
 package com.example.springbootkeycloack.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,11 +18,13 @@ public class Controller {
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> getAdmin(){
         return ResponseEntity.ok("Hello admin");
     }
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('user')")
     public ResponseEntity<String> getUser(Principal principal){
         return ResponseEntity.ok("Hello User");
     }
