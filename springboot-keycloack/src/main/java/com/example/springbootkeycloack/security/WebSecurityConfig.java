@@ -18,28 +18,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    public static final String ADMIN = "admin";
+    public static final String ADMIN = "admin";;
     public static final String USER = "user";
 
     private JwtAuthConverter jwtAuthConverter;
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-//                .authorizeHttpRequests(http -> http.anyRequest().authenticated())
-                .authorizeHttpRequests(authorizetionHttpRequests -> authorizetionHttpRequests
-                        .requestMatchers(HttpMethod.GET, "test/anonymous", "/test/anonymous/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "test/admin", "/test/admin/**").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.GET, "test/user").hasAnyRole(ADMIN, USER)
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
-                .sessionManagement(sessionManagment -> sessionManagment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .csrf(csrf -> csrf.disable())
-                .build();
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/test/anonymous", "/test/anonymous/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/test/admin", "/test/admin/**").hasRole(ADMIN)
+                .requestMatchers(HttpMethod.GET, "/test/user").hasAnyAuthority(ADMIN, USER)
+                .anyRequest().authenticated();
+        http.oauth2ResourceServer()
+                .jwt()
+                .jwtAuthenticationConverter(jwtAuthConverter);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        return http.build();
     }
 }
 

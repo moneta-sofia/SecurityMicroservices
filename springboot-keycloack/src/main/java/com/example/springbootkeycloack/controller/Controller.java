@@ -28,5 +28,11 @@ public class Controller {
     public ResponseEntity<String> getUser(Principal principal){
         return ResponseEntity.ok("Hello User");
     }
-
+//    @PreAuthorize("hasAnyAuthority('GROUP_client','GROUP_admin')")
+//    @GetMapping("/user")
+//    public ResponseEntity<String> getUser(Principal principal){
+//        return ResponseEntity.ok("Hello User");
+//    }
 }
+
+
