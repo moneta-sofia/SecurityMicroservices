@@ -2,6 +2,7 @@ package com.example.springbootkeycloack.security;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,14 +14,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @RequiredArgsConstructor
-//@EnableMethodSecurity
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    public static final String ADMIN = "admin";;
+    public static final String ADMIN = "admin";
     public static final String USER = "user";
 
+    @Autowired
     private JwtAuthConverter jwtAuthConverter;
 
 
@@ -29,7 +30,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/test/anonymous", "/test/anonymous/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/test/admin", "/test/admin/**").hasRole(ADMIN)
-                .requestMatchers(HttpMethod.GET, "/test/user").hasAnyAuthority(ADMIN, USER)
+                .requestMatchers(HttpMethod.GET, "/test/user").hasAnyRole(ADMIN, USER)
                 .anyRequest().authenticated();
         http.oauth2ResourceServer()
                 .jwt()
