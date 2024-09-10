@@ -8,8 +8,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
+
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http){
+    public SecurityWebFilterChain springSecurityFilterChain (ServerHttpSecurity http){
         http
                 .authorizeExchange(exchanges -> exchanges
                         .anyExchange().authenticated())
